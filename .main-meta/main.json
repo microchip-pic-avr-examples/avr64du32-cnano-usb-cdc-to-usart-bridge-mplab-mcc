@@ -4,8 +4,8 @@
     "content": {
         "metaDataVersion": "1.3.0",
         "name": "com.microchip.mcu8.mplabx.project.avr64du32-cnano-usb-cdc-to-usart-bridge-mplab-mcc",
-        "version": " ",
-        "displayName": "",
+        "version": "1.0.0",
+        "displayName": "USB CDC to USART Bridge using AVR DU Microcontroller",
         "projectName": "avr64du32-cnano-usb-cdc-to-usart-bridge-mplab-mcc",
         "shortDescription": "This code example demonstrates using the Communication Device Class (CDC) as a bridge to USART using the USB 2.0 device peripheral on the AVR DU family of MCUs.",
         "ide": {
@@ -19,12 +19,12 @@
             }
         ],
         "dfp": {
-            "name": "",
-            "semverRange": ""
+            "name": "AVR-Dx_DFP",
+            "semverRange": "^2.4.286"
         },
         "configurator": {
-            "name": "",
-            "semverRange": ""
+            "name": "MCC",
+            "semverRange": ">=5.7.1"
         },
         "device": {
             "metaDataVersion": "1.0.0",
@@ -37,8 +37,23 @@
             }
         },
         "author": "Henrik Moe Arnesen",
-        "peripherals": [],
-        "keywords": [],
+        "peripherals": [
+            "USB",
+            "USART",
+            "UART"
+        ],
+        "keywords": [
+            "USB-C",
+            "USB Protocol",
+            "USB 2.0",
+            "Serial Communication",
+            "Communication",
+            "USB",
+            "USART",
+            "UART",
+            "MCC",
+            "Melody"
+        ],
         "additionalData": {
             "longDescription": {
                 "metaDataVersion": "1.0.0",

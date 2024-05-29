@@ -4,3 +4,6 @@
 !/**/nbproject/*.xml
 /**/dist/*
 /**/.generated_files/*
+
+*.bak*
+*.yml

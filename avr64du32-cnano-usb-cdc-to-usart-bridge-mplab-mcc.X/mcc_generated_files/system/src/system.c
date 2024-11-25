@@ -40,7 +40,10 @@ void SYSTEM_Initialize(void)
     SYSCFG_Initialize();
     PIN_MANAGER_Initialize();
     USB0_Initialize();
+    AC0_Initialize();
+    RTC_Initialize();
     USART1_Initialize();
+    VREF_Initialize();
     USBDevice_Initialize();
     CPUINT_Initialize();
 }

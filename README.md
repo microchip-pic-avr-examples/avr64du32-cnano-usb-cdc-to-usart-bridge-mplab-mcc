@@ -6,14 +6,14 @@
 This example shows how to use the AVR DU microcontroller as a bridge to other peripherals. The attached application uses the Universal Synchronous Asynchronous Receiver-Transmitter (USART) peripheral to exemplify this. In addition to an application that will work with standard terminal applications, a python script is included showing how to easily interface with the AVR DU using the Communications Device Class (CDC).
 
 ## Related Documentation
-- [AVR® DU Family Product Page](https://www.microchip.com/en-us/products/microcontrollers-and-microprocessors/8-bit-mcus/avr-mcus/avr-du)
+- [AVR® DU Family Product Page](https://www.microchip.com/en-us/products/microcontrollers-and-microprocessors/8-bit-mcus/avr-mcus/avr-du?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_AVR-DU&utm_content=avr64du32-cnano-usb-cdc-to-usart-bridge-mplab-mcc-github&utm_bu=MCU08)
 - [USB CDC Virtual Serial Port using AVR DU Microcontroller](https://github.com/microchip-pic-avr-examples/avr64du32-cnano-usb-cdc-virtual-serial-port-mplab-mcc.git)
 - [USB CDC Specification](https://www.usb.org/document-library/class-definitions-communication-devices-12)
 
 ## Software Used
 - MPLAB® X IDE 6.20.0 or newer [(MPLAB® X IDE 6.20)](https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-x-ide?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_MPAE_Examples&utm_content=avr64du32-cnano-usb-cdc-virtual-serial-port-mplab-mcc-github)
 - MPLAB® XC8 2.46.0 or newer compiler [(MPLAB® XC8 2.46)](https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_MPAE_Examples&utm_content=avr64du32-cnano-usb-cdc-virtual-serial-port-mplab-mcc-github)
-- MPLAB® Code Configurator (MCC) plugin 5.5.0 or newer [(MPLAB® Code Configurator 5.5.0)](https://www.microchip.com/en-us/tools-resources/configure/mplab-code-configurator)
+- MPLAB® Code Configurator (MCC) plugin 5.5.0 or newer [(MPLAB® Code Configurator 5.5.0)](https://www.microchip.com/en-us/tools-resources/configure/mplab-code-configurator?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_AVR-DU&utm_content=avr64du32-cnano-usb-cdc-to-usart-bridge-mplab-mcc-github&utm_bu=MCU08)
 - PuTTY 0.81 or newer [(PuTTY 0.81)](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 - Python 3.11.0 or newer [Python](https://www.python.org/)
 
@@ -25,9 +25,16 @@ This example shows how to use the AVR DU microcontroller as a bridge to other pe
 ### Physical Setup
 The AVR DU Curiosity Nano Development Board has two USB-C ports. One for programming the device via the onboard debugger and one connected directly to the AVR DU. While programming the device over the AVR DU's port is possible using bootloaders, this example uses the debugger port, so both ports need to be connected to the host computer. After programming, the debugger port is used for serial communication to close the loop and needs to remain connected. One of the AVR DU's USART peripherals is directly connected to the debugger CDC pins, allowing the entire bridge application to be showcased on the development board.
 
-
 ### MCC Setup
-This section shows how the example is set up in MCC.
+This section shows how the example is set up in MPLAB using MCC. An overview of the MCC setup when completed is shown in the image below:
+<p><img src="images/mcc_overview.jpg" width="600"/></p>
+
+1. Start a new Microchip Embedded Standalone Project in MPLAB selecting the AVR DU as your device.
+2. Open MCC to start setting up the US
+    * If the USB library doesn’t show up in Libraries under Device Resources (By default on the left in MPLAB) it needs to be added in the Content Manager menu. The button is in the Device Resources section or under Tools in the menu
+3. Add the USB Device Stack library to the project
+4. Add the USART, AC0, RTC and VREF drivers to the project
+5. Follow the setup below to configure the library and drivers
 
 #### USB General Settings
 The configurator is set so that the AVR DU will identify as a CDC device on the highest level. The toggle switch for adding the Virtual Serial example code is also enabled.
@@ -44,7 +51,7 @@ For this example, both a communication and data interface are required.
 #### USB CDC Communication Interface
 The communication interface is the one that sets up how the communication flows in the setup. The Abstract Control Model (ACM) is used as a subclass but few of the supported commands are needed. Three Functional Descriptors are also required:
 * Header - Required for Functional Descriptors
-* ACM - Tells the host what commands the device supports (D1 indicates that device supports basic *Line Coding* and *Control Line State* commands)
+* ACM - Tells the host what commands the device supports (D1 indicates that device supports basic *Line Coding* and *Control Line State* commands needed for terminal applications)
 * Union - Tells the host the relationship between two or more interface
 <p><img src="images/mcc_usb_interface_comm.jpg" width="500"/></p>
 
@@ -56,7 +63,7 @@ All communication is sent over the data interface for this basic Virtual Serial 
 General settings for the USART can be seen below. The specific settings is not important, but must match what is set in the terminal session for the USART. If large amount of data is being transmitted the baud rate should match between the USART and CDC session to avoid buffer overflow.
 <p><img src="images/mcc_usart_settings.jpg" width="500"/></p>
 
-USART hardware settings are set to enable TX and RX for the peripheral.
+USART hardware and interrupt settings should be set by the settings above but should for reference be like the picture below.
 <p><img src="images/mcc_usart_hardware_settings.jpg" width="500"/></p>
 
 To set the pins for the USART as in- and output the corresponding fields are clicked in the Pin Grid View. These pins need to match the Curiosity Nano debuggers CDC pins for the example to work.
@@ -65,6 +72,57 @@ To set the pins for the USART as in- and output the corresponding fields are cli
 ### Device Clock Setup
 This example is configured to run on 24 MHz. The minimum oscillator frequency for USB on the AVR DU is 12 MHz.
 <p><img src="images/mcc_clock_control.jpg" width="500"/></p>
+
+The application uses a delay function to blink a LED if the USB connection fails. This delay function is dependent on knowing the main clock speed through the F_CPU define. In this project it has been set up as a preprocessed define macro in the project settings as seen in the image below. 
+
+<p><img src="images/mplab_macros.jpg" width="500"/></p>
+
+Alternatively it could have been added in the main file as `#define F_CPU 24000000UL` above the delay include.
+
+### USB Voltage Detection Setup
+To ensure that the USB peripheral only tries to attach to the bus when the Curiosity Nano is connected to the PC, the Analog Comparator will periodically check if the voltage is within the acceptable range for V<sub>BUS</sub>.
+
+#### Voltage Reference Setup
+In the V<sub>REF</sub> peripheral, the Voltage Reference is set to 2.048V.
+<p><img src="images/mcc_vref_hardware_settings.jpg" width="600"/></p>
+
+#### Analog Comparator Setup (AC)
+The Analog Comparator must be enabled by toggling Enable under Hardware Settings.
+
+The positive input is set to the USB DETECT pin on the curiosity nano which is connected to Positive Pin 4 on the AC by default. The detection threshold is set using the Digital-to-Analog Comparator (DAC) reference (DACREF) which is selected as the negative input to the AC.
+
+To calculate the DACREF value we can use the formula from the datasheet:
+
+*V_DACREF = (DACREF / 256) * V_REF*
+
+If we know the threshold we want, we can use the built in-feature of MCC to do it for us. We want to use the value 0.32V as a threshold due to the voltage divider implemented on the Curiosity Nano. Inputting this value into the Requested Voltage field will populate the DACREF value.
+
+Refer to the [AVR64DU32 Curiosity Nano User Guide](https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/UserGuides/AVR64DU32-Curiosity-Nano-UserGuide-DS50003671.pdf) for more information on how the *USB DETECT* is implemented on the Curiosity Nano.
+
+<p><img src="images/mcc_ac_hardware_settings.jpg" width="600"/></p>
+
+### RTC Setup
+The RTC Periodic Interrupt Timer (PIT) is used to trigger the voltage detection described above. 
+
+#### RTC Hardware Settings
+The RTC is configured to run on a 1kHz clock with no prescaler.
+<p><img src="images/mcc_rtc_hardware_settings.jpg" width="600"/></p>
+
+#### RTC Interrupt Settings
+The PIT is then set to trigger at every 32 clock cycles of the RTC clock. this gives an update rate of ~31Hz.
+<p><img src="images/mcc_rtc_interrupt_settings.jpg" width="600"/></p>
+
+The application is set up to need 5 stable voltage readings before initiating USB communication. This means that, with no voltage fluctuations and the settings above, the startup time should be in the 0.16s range.
+
+### LED Setup
+The onboard LED of the Curiosity Nano is used to indicate if USB communications has failed. The LED is connected to the PF1 pin and can be selected as an output in the Pin Grid View as seen in the USART section of this guide. The pin is given a custom name in the Pins menu as seen below. This makes the code easier to read with function generated using this name.
+
+<p><img src="images/mcc_pin_naming.jpg" width="600"/></p>
+
+### Global Interrupts
+Since this example uses interrupts both for voltage monitoring and for USART communication, global interrupt must be enabled in the Interrupt Manager.
+
+<p><img src="images/mcc_interrupt.jpg" width="500"/></p>
 
 ### Application
 The included application is set up to pass data between the USB peripheral and a USART peripheral.
@@ -132,7 +190,7 @@ pip install pyserial
 The included script is quite sparse and is only meant to show the basic functionality. While both the Curiosity Nanos USB port are connected and the device is programmed as described in the previous example, running the script is done using the following command:
 
 ```
-python usb_cdc_virtual_serial_port.py
+python usb_cdc_usart_bridge.py
 ```
 The python prefix depends on the installed Python version and setup.
 

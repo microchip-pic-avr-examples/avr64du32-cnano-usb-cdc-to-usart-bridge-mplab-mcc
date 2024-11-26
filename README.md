@@ -63,6 +63,8 @@ All communication is sent over the data interface for this basic Virtual Serial 
 General settings for the USART can be seen below. The specific settings is not important, but must match what is set in the terminal session for the USART. If large amount of data is being transmitted the baud rate should match between the USART and CDC session to avoid buffer overflow.
 <p><img src="images/mcc_usart_settings.jpg" width="500"/></p>
 
+> 🛈 Info: The on-board debugger of the Curiosity Nano limits its baud rate to about 500 kbaud. Because of this it is also the limit for the AVR DU in this example. If implemented without the development board this limit is removed.
+
 USART hardware and interrupt settings should be set by the settings above but should for reference be like the picture below.
 <p><img src="images/mcc_usart_hardware_settings.jpg" width="500"/></p>
 
@@ -169,6 +171,8 @@ This section assumes that the setup has been followed and that the device is pro
 The application takes advantage of the two USB connectors on the AVR DU Curiosity Nano. Because of this two terminal sessions can be started to the development board at the same time. After identifying the two virtual serial ports as described in the last section, start terminal sessions with the default settings in both. The connection type needs to be serial and the port numbering is added in the *Serial line* field. Finally use `115200` as the speed value and click open. If the baud rate is changed for the USART peripheral the value must be changed here to.
 
 <p><img src="images/putty_setup.jpg" width="400"/></p>
+
+> 🛈 Info: Note that the baud rate should match between the terminal sessions to avoid buffer overflow.
 
 By opening both terminal sessions, a live updating bridge will be active. Writing in one will show up in the other with no echo active.
 

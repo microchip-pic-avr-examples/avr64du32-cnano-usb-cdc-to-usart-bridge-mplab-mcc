@@ -62,29 +62,29 @@ All communication is sent over the data interface for this basic Virtual Serial 
 <p><img src="images/mcc_usb_interface_data.jpg" width="500"/></p>
 
 ### USART 
-General settings for the USART can be seen below. The specific settings is not important, but must match what is set in the terminal session for the USART. If large amount of data is being transmitted the baud rate should match between the USART and CDC session to avoid buffer overflow.
+General settings for the USART can be seen below. The specific settings are not important, but must match what is set in the terminal session for the USART. If large amount of data is being transmitted, the baud rate should match between the USART and CDC session to avoid buffer overflow.
 <p><img src="images/mcc_usart_settings.jpg" width="500"/></p>
 
-> 🛈 Info: The on-board debugger of the Curiosity Nano limits its baud rate to about 500 kbaud. Because of this, it is also the limit for the AVR DU in this example. If implemented without the development board this limit is removed.
+> 🛈 Info: The on-board debugger of the Curiosity Nano limits its baud rate to about 500 kbaud. Consequently, this is also the limit for the AVR DU in this example. If implemented without the development board, this limit is removed.
 
-USART hardware and interrupt settings should be set by the settings above but should for reference be like the picture below.
+USART hardware and interrupt settings should be automatically set by the configuring the settings above. For reference, this is the correct configuration.
 <p><img src="images/mcc_usart_hardware_settings.jpg" width="500"/></p>
 
-To set the pins for the USART as in- and output the corresponding fields are clicked in the Pin Grid View. These pins need to match the Curiosity Nano debuggers CDC pins for the example to work.
+To set the pins for the USART as in- and output, the corresponding fields are clicked in the **Pin Grid View**. These pins need to match the Curiosity Nano debuggers CDC pins for the example to work.
 <p><img src="images/mcc_pin_grid.jpg" width="500"/></p>
 
 ### Device Clock Setup
 This example is configured to run on 24 MHz. The minimum oscillator frequency for USB on the AVR DU is 12 MHz.
 <p><img src="images/mcc_clock_control.jpg" width="500"/></p>
 
-The application uses a delay function to blink an LED if the USB connection fails. This delay function is dependent on knowing the main clock speed through the F_CPU define. Here, this has been set up as a preprocessed define macro in the project settings, as seen in the image below.
+The application uses a delay function to blink an LED if the USB connection fails. This delay function is dependent on knowing the main clock speed through the F_CPU define. Here, this has been set up as a preprocessed define macro in the project settings.
 
 <p><img src="images/mplab_macros.jpg" width="500"/></p>
 
 Alternatively, it could have been added in the main file as `#define F_CPU 24000000UL` above the `#include <util/delay.h>` line.
 
 ### USB Voltage Detection Setup
-To ensure that the USB peripheral only tries to attach to the bus when the Curiosity Nano is connected to the PC, the Analog Comparator will periodically check if the voltage is within the acceptable range for V<sub>BUS</sub>.
+To ensure that the USB peripheral only tries to attach to the bus when the Curiosity Nano is connected to the PC, the Analog Comparator will be checked periodically if the voltage is within the acceptable range for V<sub>BUS</sub>.
 
 #### Voltage Reference Setup
 In the V<sub>REF</sub> peripheral, the Voltage Reference is set to 2.048V.
@@ -97,11 +97,11 @@ The positive input is set to the USB DETECT pin on the Curiosity Nano which is c
 
 To calculate the DACREF, use the formula from the data sheet:
 
-*V_DACREF = (DACREF / 256) * V_REF*
+*V<sub>DACREF</sub>> = (DACREF / 256) * V<sub>REF</sub>*
 
 Due to the voltage divider present on the Curiosity Nano, a threshold of 0.32V is needed for this project. Inputting this value into the Requested Voltage field in MCC can calculate the DACREF value automatically.
 
-Refer to the [AVR64DU32 Curiosity Nano User Guide](https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/UserGuides/AVR64DU32-Curiosity-Nano-UserGuide-DS50003671.pdf) for more information on how the *USB DETECT* is implemented on the Curiosity Nano.
+Refer to the [AVR64DU32 Curiosity Nano User Guide](https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/UserGuides/AVR64DU32-Curiosity-Nano-UserGuide-DS50003671.pdf) for more information on how the USB DETECT is implemented on the Curiosity Nano.
 
 <p><img src="images/mcc_ac_hardware_settings.jpg" width="600"/></p>
 
@@ -113,18 +113,18 @@ The RTC is configured to run on a 1 kHz clock with no prescaler.
 <p><img src="images/mcc_rtc_hardware_settings.jpg" width="600"/></p>
 
 #### RTC Interrupt Settings
-The PIT is then set to trigger at every 32 clock cycles of the RTC clock. this gives an update rate of ~31 Hz.
+The PIT is then set to trigger at every 32 clock cycles of the RTC clock, which gives an update rate of ~31 Hz.
 <p><img src="images/mcc_rtc_interrupt_settings.jpg" width="600"/></p>
 
-The application is set up to need five stable voltage readings before initiating the USB communication. This means that, with no voltage fluctuations and the settings above, the start-up time will be in the 0.16s range.
+The application is set up to need five stable voltage readings before initiating the USB communication.  Considering the previous settings and an environment with no voltage fluctuations, the start-up time is in the 0.16s range.
 
 ### LED Setup
-The on-board LED of the Curiosity Nano is used to indicate if the USB communications has failed. The LED is connected to the PF1 pin and can be selected as an output in the Pin Grid View as seen in the USART section of this guide. The pin is given a custom name in the Pins menu, as seen below. This makes the code easier to read with function generated using this name.
+The on-board LED of the Curiosity Nano is used to indicate if the USB communications has failed. The LED is connected to the PF1 pin and can be selected as an output in the Pin Grid View as seen in the USART section of this guide. The pin is given a custom name in the Pins menu, as seen below. This makes the code easier to read with the functions generated using this name.
 
 <p><img src="images/mcc_pin_naming.jpg" width="600"/></p>
 
 ### Global Interrupts
-Since this example uses interrupts both for voltage monitoring and for USART communication, global interrupt must be enabled in the Interrupt Manager.
+Since this example uses interrupts both for voltage monitoring and for USART communication, toggle the Global Interrupt Enable button Interrupt Manager.
 
 <p><img src="images/mcc_interrupt.jpg" width="500"/></p>
 

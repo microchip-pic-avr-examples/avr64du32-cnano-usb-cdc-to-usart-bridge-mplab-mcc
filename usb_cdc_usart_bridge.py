@@ -37,6 +37,8 @@ def main(serialPortNum, debugPortNum):
         cdcSerial = serial.Serial(serialPortNum,115200,timeout=1)
     else:
         print("CDC Virtual Serial Port number error detected - Could not start serial communication")
+        print("\t 1. Make sure both the DEBUGGER and TARGET port are connected to the computer")
+        print("\t 2. Disconnect other AVR devices from the computer")
         sys.exit("Error occurred")
         
     # Starts debugger serial communication if serial port exists, else throws error

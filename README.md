@@ -27,9 +27,10 @@ This example shows how to use USB communication with the AVR DU microcontroller 
 ### Physical Setup
 The AVR DU Curiosity Nano Development Board has two USB-C® ports as shown in the image below. One for programming the device via the on-board debugger and one connected directly to the AVR DU. While programming the device over the AVR DU's port is possible using bootloaders, this example uses the debugger port, so both ports need to be connected to the host computer. After programming, the debugger port is used for serial communication to close the loop and needs to remain connected. The AVR DU's USART1 peripheral is directly connected to the debugger's CDC pins, allowing the entire bridge application to be showcased on the development board.
 
-<p><img src="images/cnano_setup_irl.jpg" width="700"/></p>
 
-The Curiosity Nano has an Adjustable Target Regulator that regulates voltage to 3.3V by default. Since the USB peripheral in the AVR64DU32 needs to run at 3.3V, it either needs a 3.3V supply connected on the V<sub>USB</sub> pin or a 5.0V supply on V<sub>DD</sub> with the internal USB Voltage Regulator active. With the Curiosity Nano's default settings, the V<sub>BUS</sub> pinheader on the board must be connected with the included jumper to supply 3.3V directly to V<sub>USB</sub>. This example uses the default settings, requiring the jumper connected.
+The Curiosity Nano has an Adjustable Target Regulator that regulates voltage to 3.3V by default. Since the USB peripheral in the AVR64DU32 needs to run at 3.3V, it either needs a 3.3V supply connected on the V<sub>USB</sub> pin or a 5.0V supply on V<sub>DD</sub> with the internal USB Voltage Regulator active. With the Curiosity Nano's default settings, the V<sub>BUS</sub> pinheader on the board must be connected with the included jumper to supply 3.3V directly to V<sub>USB</sub>. This example uses the default settings, requiring the jumper as shown in the image below.
+
+<p><img src="images/physical_setup.jpg" width="600"/></p>
 
 ### MCC Project Setup
 This section shows how the example is set up in MPLAB using MCC. An overview of the complete MCC setup is shown in the image below:

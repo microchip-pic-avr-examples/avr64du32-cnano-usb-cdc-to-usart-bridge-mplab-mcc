@@ -12,7 +12,7 @@
 */
 
 /*
-© [2024] Microchip Technology Inc. and its subsidiaries.
+© [2025] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -52,7 +52,7 @@ void PIN_MANAGER_Initialize()
     PORTA.DIR = 0x0;
     PORTC.DIR = 0x0;
     PORTD.DIR = 0x40;
-    PORTF.DIR = 0x2;
+    PORTF.DIR = 0x4;
 
   /* PINxCTRL registers Initialization */
     PORTA.PIN0CTRL = 0x0;
@@ -191,7 +191,7 @@ ISR(PORTD_PORT_vect)
 ISR(PORTF_PORT_vect)
 { 
     // Call the interrupt handler for the callback registered at runtime
-    if(VPORTF.INTFLAGS & PORT_INT1_bm)
+    if(VPORTF.INTFLAGS & PORT_INT2_bm)
     {
        LED_InterruptHandler(); 
     }

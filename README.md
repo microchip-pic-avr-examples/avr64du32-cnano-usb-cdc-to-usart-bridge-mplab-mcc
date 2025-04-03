@@ -14,7 +14,7 @@ This example shows how to use USB communication with the AVR DU microcontroller 
 
 ## Software Used
 - [MPLAB® X IDE 6.20.0](https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-x-ide?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_MPAE_Examples&utm_content=avr64du32-cnano-usb-cdc-virtual-serial-port-mplab-mcc-github) or newer
-- [MPLAB® XC8 2.46.0](https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_MPAE_Examples&utm_content=avr64du32-cnano-usb-cdc-virtual-serial-port-mplab-mcc-github) compiler or newer
+- [MPLAB® XC8 3.0.0](https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-xc-compilers?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_MMTCha_MPAE_Examples&utm_content=avr64du32-cnano-usb-cdc-virtual-serial-port-mplab-mcc-github) compiler or newer
 - [MPLAB® Code Configurator (MCC) 5.5.0](https://www.microchip.com/en-us/tools-resources/configure/mplab-code-configurator?utm_source=GitHub&utm_medium=TextLink&utm_campaign=MCU8_AVR-DU&utm_content=avr64du32-cnano-usb-cdc-to-usart-bridge-mplab-mcc-github&utm_bu=MCU08) plug-in or newer
 - [PuTTY 0.81](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) or newer
 - [Python 3.11.0](https://www.python.org/) or newer

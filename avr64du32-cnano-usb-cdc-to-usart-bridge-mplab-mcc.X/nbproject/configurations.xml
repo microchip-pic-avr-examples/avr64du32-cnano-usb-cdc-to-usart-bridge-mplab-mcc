@@ -214,7 +214,6 @@
       </makeCustomizationType>
       <HI-TECH-COMP>
         <property key="additional-warnings" value="true"/>
-        <property key="appendMe" value=""/>
         <property key="asmlist" value="true"/>
         <property key="call-prologues" value="false"/>
         <property key="default-bitfield-type" value="true"/>
@@ -426,7 +425,7 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="AVR-Dx_DFP" vendor="Microchip" version="2.6.303"/>
+        <pack name="AVR-Dx_DFP" vendor="Microchip" version="2.7.321"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
